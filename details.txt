@@ -1,0 +1,24 @@
+>>> from webapp.models import devices
+>>> a = devices.objects.all()
+>>> a
+<QuerySet [<devices: light1>, <devices: fan1>, <devices: light2>]>
+>>> b = devices.objects.values_list('id', flat=True).order_by('id')
+>>> b
+<QuerySet [1, 2, 3]>
+>>>
+>>> val=b.count
+>>> val
+<bound method QuerySet.count of <QuerySet [1, 2, 3]>>
+>>> val=b.count()
+>>> val
+3
+
+
+    path('buildings/',buildingsList.as_view()),# to get the entire building, room, device info in hierarchy
+    path('buildings/<int:id>',buildingsListDetailedView.as_view()),# to get the specific building info
+    path('rooms/',roomsList.as_view()),# to get the entire room, device info in hierarchy
+    path('rooms/<int:id>',roomsListDetailedView.as_view()),# to get the specific room info
+    path('devices/',devicesList.as_view()),# to get the list of all devices
+    path('devices/<int:id>',devicesListDetailedView.as_view()),# to get specific device
+    path('loggings/',loggingList.as_view()),# to get the logging info
+    path('loggingfilter/',loggingfilter.as_view()),# to filter in logging using (loggingfilter/?device_id=val&created_at=val&lte=val&gte=val) can also leave any unwantted parameter

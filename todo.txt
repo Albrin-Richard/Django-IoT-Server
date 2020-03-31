@@ -1,0 +1,159 @@
+1) To do in sending response to frontend
+
+In [1]: aa = {}
+
+In [2]: aa
+Out[2]: {}
+
+In [5]: aa.update({"date" : [1,2,3]})
+
+In [6]: aa
+Out[6]: {'date': [1, 2, 3]}
+
+In [7]: aa.update({"power" : "24Wh"})
+
+In [8]: aa
+Out[8]: {'date': [1, 2, 3], 'power': '24Wh'}
+
+In [9]: b = [1,2,3]
+////
+/
+/
+/
+/
+2) work with schedule display
+
+
+->view
+
+
+In [19]: l = scheduler.get_jobs(with_times=True)
+
+In [20]: xx=list(l)
+In [22]: xx[0]
+Out[22]:
+(Job('237b1ea4-dc7b-40d4-b08e-d15e889eb071', enqueued_at=datetime.datetime(2020, 3, 27, 7, 20, 34, 354860)),
+ datetime.datetime(2020, 3, 28, 7, 20))
+
+In [23]: a,b = xx[0]
+
+In [24]: a
+Out[24]: Job('237b1ea4-dc7b-40d4-b08e-d15e889eb071', enqueued_at=datetime.datetime(2020, 3, 27, 7, 20, 34, 354860))
+
+In [25]: b
+Out[25]: datetime.datetime(2020, 3, 28, 7, 20)
+
+In [26]: a.__dict__
+Out[26]:
+{'connection': Redis<ConnectionPool<Connection<host=localhost,port=6379,db=0>>>,
+ '_id': '237b1ea4-dc7b-40d4-b08e-d15e889eb071',
+ 'created_at': datetime.datetime(2020, 3, 27, 6, 49, 58, 432993),
+ '_data': b'\x80\x04\x95%\x00\x00\x00\x00\x00\x00\x00(\x8c\x1awebapp.schedule.create_log\x94N)}\x94t\x94.',
+ '_func_name': <object at 0x7fe46ff3f6e0>,
+ '_instance': <object at 0x7fe46ff3f6e0>,
+ '_args': <object at 0x7fe46ff3f6e0>,
+ '_kwargs': <object at 0x7fe46ff3f6e0>,
+ 'description': 'webapp.schedule.create_log()',
+ 'origin': 'default',
+ 'enqueued_at': datetime.datetime(2020, 3, 27, 7, 20, 34, 354860),
+ 'started_at': datetime.datetime(2020, 3, 27, 7, 20, 34, 367646),
+ 'ended_at': datetime.datetime(2020, 3, 27, 7, 20, 34, 420998),
+ '_result': None,
+ 'exc_info': None,
+ 'timeout': 180,
+ 'result_ttl': -1,
+ 'failure_ttl': None,
+ 'ttl': None,
+ '_status': 'finished',
+ '_dependency_ids': [],
+ 'meta': {'cron_string': '20 7 * * *'}}
+
+In [27]: a,b=xx.last()
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-27-6444e95c1609> in <module>
+----> 1 a,b=xx.last()
+
+AttributeError: 'list' object has no attribute 'last'
+
+In [28]: a,b=xx[-1]
+
+In [29]: a
+Out[29]: Job('714533c2-3fd5-4fa8-9e32-27b03f19f09a', enqueued_at=datetime.datetime(2020, 3, 27, 9, 28, 18, 878395))
+
+In [30]: a.__dict__
+Out[30]:
+{'connection': Redis<ConnectionPool<Connection<host=localhost,port=6379,db=0>>>,
+ '_id': '714533c2-3fd5-4fa8-9e32-27b03f19f09a',
+ 'created_at': datetime.datetime(2020, 3, 27, 9, 27, 20, 139322),
+ '_data': b'\x80\x04\x95.\x00\x00\x00\x00\x00\x00\x00(\x8c\x1awebapp.schedule.create_log\x94N]\x94(J\xc1\xd8\xa7\x00\x89e}\x94t\x94.',
+ '_func_name': <object at 0x7fe46ff3f6e0>,
+ '_instance': <object at 0x7fe46ff3f6e0>,
+ '_args': <object at 0x7fe46ff3f6e0>,
+ '_kwargs': <object at 0x7fe46ff3f6e0>,
+ 'description': 'webapp.schedule.create_log(11000001, False)',
+ 'origin': 'default',
+ 'enqueued_at': datetime.datetime(2020, 3, 27, 9, 28, 18, 878395),
+ 'started_at': datetime.datetime(2020, 3, 27, 9, 28, 18, 889719),
+ 'ended_at': datetime.datetime(2020, 3, 27, 9, 28, 18, 958580),
+ '_result': None,
+ 'exc_info': None,
+ 'timeout': 180,
+ 'result_ttl': -1,
+ 'failure_ttl': None,
+ 'ttl': None,
+ '_status': 'finished',
+ '_dependency_ids': [],
+ 'meta': {'cron_string': '28 9 * * *'}}
+
+In [31]: a.args()
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-31-d457b1119f61> in <module>
+----> 1 a.args()
+
+TypeError: 'list' object is not callable
+
+In [32]: a.args
+Out[32]: [11000001, False]
+
+In [33]: a
+Out[33]: Job('714533c2-3fd5-4fa8-9e32-27b03f19f09a', enqueued_at=datetime.datetime(2020, 3, 27, 9, 28, 18, 878395))
+
+In [34]: schedule.cancel(a)
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+<ipython-input-34-b7528ded6369> in <module>
+----> 1 schedule.cancel(a)
+
+NameError: name 'schedule' is not defined
+
+
+->delete
+
+
+In [35]: scheduler.cancel(a)
+
+In [36]: l = scheduler.get_jobs()
+
+In [37]: list(l)
+Out[37]:
+[Job('237b1ea4-dc7b-40d4-b08e-d15e889eb071', enqueued_at=datetime.datetime(2020, 3, 27, 7, 20, 34, 354860)),
+ Job('3343d972-99f4-42c2-9e15-ef9abb20875f', enqueued_at=datetime.datetime(2020, 3, 27, 7, 20, 34, 361648)),
+ Job('ee9d3c1e-bc1d-4333-a433-e5e2746480da', enqueued_at=datetime.datetime(2020, 3, 27, 7, 40, 35, 107989)),
+ Job('9b2597ee-a82c-4da1-b080-e349aa76a514', enqueued_at=datetime.datetime(2020, 3, 27, 7, 45, 35, 390792)),
+ Job('9b8dd14f-6c30-4ba2-a577-83d80f716bbb', enqueued_at=datetime.datetime(2020, 3, 27, 8, 40, 16, 633577)),
+ Job('af78d5f2-b915-4d42-8e9d-54daf5beb11e', enqueued_at=datetime.datetime(2020, 3, 27, 8, 43, 16, 800933)),
+ Job('54c077e3-b380-4f98-a227-43a68e43a012', enqueued_at=datetime.datetime(2020, 3, 27, 8, 49, 17, 128099)),
+ Job('ecb07b65-aef9-4e67-9b1e-b09ab1b7541b', enqueued_at=datetime.datetime(2020, 3, 27, 8, 49, 17, 131480)),
+ Job('4cfb9ee1-bbe1-49b9-bafa-89fa211a0c8e', enqueued_at=datetime.datetime(2020, 3, 27, 8, 53, 17, 198084)),
+ Job('7b1692e2-12af-47b9-95ed-663519c66dd3', enqueued_at=datetime.datetime(2020, 3, 27, 9, 3, 17, 666762)),
+ Job('7353fe08-8da9-4c00-8914-b8905db3243a', enqueued_at=datetime.datetime(2020, 3, 27, 9, 4, 17, 684325)),
+ Job('757d8814-93e9-4cb4-9f40-4305d54f9998', enqueued_at=datetime.datetime(2020, 3, 27, 9, 4, 17, 688087)),
+ Job('55a13e2f-0c7e-4a0e-b058-e8220e8a0a06', enqueued_at=datetime.datetime(2020, 3, 27, 9, 9, 17, 920484)),
+ Job('b08b7247-5e0a-4aa4-b879-86e0918c42d6', enqueued_at=datetime.datetime(2020, 3, 27, 9, 15, 18, 194810)),
+ Job('8651501e-53f0-4f7f-83e7-1e285f800afb', enqueued_at=datetime.datetime(2020, 3, 27, 9, 19, 18, 416359)),
+ Job('27fa51df-3800-4ea5-9213-b169a7e31f0f', enqueued_at=datetime.datetime(2020, 3, 27, 9, 23, 18, 623064))]
+
+In [38]:
+
