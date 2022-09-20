@@ -1,0 +1,3 @@
+[submodule "controlr"]
+	path = controlr
+	url = https://github.com/siddiqnx/controlr
